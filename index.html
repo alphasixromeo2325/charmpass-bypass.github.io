@@ -199,25 +199,20 @@
       <div style="text-align: center; padding: 20px;">
         <label for="accessKeyInput" style="font-size: 24px; font-weight: bold; display: block; margin-bottom: 10px;">Access Key</label>
         <input type="text" id="accessKeyInput" style="font-size: 24px; padding: 10px; width: 300px; text-align: center; margin-bottom: 20px;" placeholder="Enter Access Key">
-        <p style="font-size: 14px; color: #666;">Access Key can be requested by sending an email to charmpass.bypass@gmail.com</p>
+        <p style="font-size: 14px; color: #666;">Access Key can be requested by sending an email to <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f2919a93809f82938181dc908b82938181b2959f939b9edc919d9f">[email&#160;protected]</a></p>
         <p id="accessKeyError" style="font-size: 14px; color: red; display: none;">Incorrect Access Key</p>
       </div>
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
       // Access Key validation with persistent storage
       (function() {
         // Check if we're generating a ticket (has go parameter)
         const params = new URLSearchParams(window.location.search);
         const isGenerating = params.has("go");
         
-        // If generating ticket, don't show overlay at all
-        if (isGenerating) {
-          return;
-        }
-        
-        // Check if already authenticated (persists until cache is cleared)
-        if (localStorage.getItem('accessGranted') !== 'true') {
+        // If not generating ticket and not authenticated, show overlay
+        if (!isGenerating && localStorage.getItem('accessGranted') !== 'true') {
           document.getElementById('accessKeyOverlay').style.display = 'flex';
         }
       })();
@@ -942,9 +937,4 @@
          (x) => x.addEventListener("change", validate_origin_destination)
         );
 
-        /* Also do it when the page loads, because firefox likes to
-         * remember your selection even after the page reloads. */
-        window.addEventListener("load", validate_origin_destination);
-
-        /* Finally, we have to babysit mobile Firefox, who doesn't
-         * support HTML5 for
+        /* Also do it when the page loads, because firefox likes
