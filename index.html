@@ -195,28 +195,17 @@
 
   <body>
     <!-- Access Key Protection -->
-    <div id="accessKeyOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #fff; z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center;">
+    <div id="accessKeyOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #fff; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center;">
       <div style="text-align: center; padding: 20px;">
         <label for="accessKeyInput" style="font-size: 24px; font-weight: bold; display: block; margin-bottom: 10px;">Access Key</label>
         <input type="text" id="accessKeyInput" style="font-size: 24px; padding: 10px; width: 300px; text-align: center; margin-bottom: 20px;" placeholder="Enter Access Key">
-        <p style="font-size: 14px; color: #666;">Access Key can be requested by sending an email to <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f2919a93809f82938181dc908b82938181b2959f939b9edc919d9f">[email&#160;protected]</a></p>
+        <p style="font-size: 14px; color: #666;">Access Key can be requested by sending an email to <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="583b30392a3528392b2b763a2128392b2b183f35393134763b3735">[email&#160;protected]</a></p>
         <p id="accessKeyError" style="font-size: 14px; color: red; display: none;">Incorrect Access Key</p>
       </div>
     </div>
 
-    <script>
-      // Access Key validation with persistent storage
-      (function() {
-        // Check if we're generating a ticket (has go parameter)
-        const params = new URLSearchParams(window.location.search);
-        const isGenerating = params.has("go");
-        
-        // If not generating ticket and not authenticated, show overlay
-        if (!isGenerating && localStorage.getItem('accessGranted') !== 'true') {
-          document.getElementById('accessKeyOverlay').style.display = 'flex';
-        }
-      })();
-
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+      // Access Key validation
       document.getElementById('accessKeyInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
           checkAccessKey();
@@ -226,7 +215,6 @@
       function checkAccessKey() {
         const input = document.getElementById('accessKeyInput').value;
         if (input === 'CHARMCITY') {
-          localStorage.setItem('accessGranted', 'true');
           document.getElementById('accessKeyOverlay').style.display = 'none';
         } else {
           document.getElementById('accessKeyError').style.display = 'block';
@@ -937,4 +925,10 @@
          (x) => x.addEventListener("change", validate_origin_destination)
         );
 
-        /* Also do it when the page loads, because firefox likes
+        /* Also do it when the page loads, because firefox likes to
+         * remember your selection even after the page reloads. */
+        window.addEventListener("load", validate_origin_destination);
+      }
+    </script>
+  </body>
+</html>
